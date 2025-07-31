@@ -4,6 +4,16 @@ const MONGODB_URI = 'mongodb+srv://dwaitpandhi:69duAjl4j6r8BAnl@cluster0.z80toii
 const DB_NAME = 'flashlearn';
 
 // Create a MongoDB client with proper configuration
+  /**
+   * Creates a new instance of MongoClient with the configuration for connecting to MongoDB
+   * @param {string} MONGODB_URI - The connection string for the MongoDB server
+   * @param {Object} [options] - Optional configuration for the MongoClient
+   * @param {boolean} [options.tls=true] - Whether to use TLS (SSL) when connecting
+   * @param {boolean} [options.tlsAllowInvalidCertificates=true] - Whether to allow invalid certificates when connecting with TLS
+   * @param {number} [options.serverSelectionTimeoutMS=5000] - The timeout in milliseconds for selecting a server for the initial connection
+   * @param {number} [options.connectTimeoutMS=10000] - The timeout in milliseconds for establishing a connection to a server
+   * @param {number} [options.socketTimeoutMS=45000] - The timeout in milliseconds for socket operations
+   */
 const client = new MongoClient(MONGODB_URI, {
   tls: true,
   tlsAllowInvalidCertificates: true,
