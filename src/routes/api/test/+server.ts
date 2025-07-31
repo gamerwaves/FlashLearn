@@ -1,7 +1,12 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { MongoClient, type MongoClientOptions } from 'mongodb';
+import { MongoClient } from 'mongodb';
 
+// Environment configuration - using import.meta.env in SvelteKit
+const MONGODB_URI = import.meta.env.VITE_MONGODB_URI || 'your-mongodb-uri';
+const DB_NAME = 'flashlearn';
+
+// Type for environment variables
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
@@ -9,10 +14,6 @@ declare global {
     }
   }
 }
-
-// Environment configuration
-const MONGODB_URI = process.env.MONGODB_URI || 'your-mongodb-uri';
-const DB_NAME = 'flashlearn';
 
 // Type for our response data
 interface TestResponse {
@@ -40,15 +41,17 @@ export const GET: RequestHandler = async () => {
     }
 
     // Configure MongoDB client with connection options
-    const clientOptions: MongoClientOptions = {
+    client = new MongoClient(MONGODB_URI, {
       serverSelectionTimeoutMS: 5000,  // 5 seconds timeout for server selection
       connectTimeoutMS: 10000,         // 10 seconds timeout for initial connection
       socketTimeoutMS: 45000,          // 45 seconds timeout for socket operations
       retryWrites: true,
       retryReads: true,
-    };
-    
-    client = new MongoClient(MONGODB_URI, clientOptions);
+      // @ts-ignore - These options are valid but not in the type definition
+      useNewUrlParser: true,
+      // @ts-ignore
+      useUnifiedTopology: true
+    });
 
     // Test MongoDB connection
     await client.connect();
@@ -100,7 +103,7 @@ export const GET: RequestHandler = async () => {
       errorResponse.error.message = error.message;
       
       // Add stack trace in development
-      if (process.env.NODE_ENV === 'development') {
+      if (import.meta.env.DEV) {
         errorResponse.error.stack = error.stack;
       }
       
@@ -135,5 +138,4 @@ export const GET: RequestHandler = async () => {
       console.error('Error during MongoDB connection cleanup:', closeError);
     }
   }
-	}
-}; 
+};
