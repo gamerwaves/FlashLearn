@@ -44,6 +44,7 @@
 		]
 	},
 	"dependencies": {
+		"@sveltejs/adapter-vercel": "^5.8.1",
 		"crypto-js": "^4.2.0",
 		"mongodb": "^6.18.0"
 	}
