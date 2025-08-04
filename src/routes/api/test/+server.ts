@@ -3,7 +3,7 @@ import type { RequestHandler } from './$types';
 import { MongoClient } from 'mongodb';
 
 // Environment configuration - using import.meta.env in SvelteKit
-const MONGODB_URI = import.meta.env.VITE_MONGODB_URI || 'your-mongodb-uri';
+const MONGODB_URI = 'mongodb+srv://dwaitpandhi:69duAjl4j6r8BAnl@cluster0.z80toii.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0&tls=true&tlsAllowInvalidCertificates=true';
 const DB_NAME = 'flashlearn';
 
 // Type for environment variables
